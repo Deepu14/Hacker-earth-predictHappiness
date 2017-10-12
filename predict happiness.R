@@ -41,7 +41,7 @@ train_clean[,Description:=map_chr(Description,replace_contraction)] #replace con
 train_clean[,Description:=map(Description,function(k) rm_stopwords(k,Top200Words,unlist = T))] #remove stopwords
 train_clean[,Description:=map(Description,function(k) stemmer(k))] #stemming
 train_clean[,Description:=map(Description,function(k) k[nchar(k) > 2])] #remove words that have two alphabets
-fwrite(train_clean, file ="train_clean.csv")#save pre-processed into a csv file
+fwrite(train_clean, file ="train_clean.csv")#save pre-processed data to a csv file
 
 
 test_clean <- test[,Description:=map_chr(Description,tolower)]
