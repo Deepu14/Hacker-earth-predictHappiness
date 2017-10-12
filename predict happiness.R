@@ -31,35 +31,16 @@ library(qdap)
 library(textclean)
 library(lexicon)
 library(SnowballC)
-#install.packages("text2vec")
-#library(text2vec)
-
-#cleanData <- function(data)
-#{
-  
-#  data[, Description := map_chr(Description, tolower)] # to lower
-#  data[, Description := map_chr(Description, function(k) gsub(pattern = "[[:punct:]]",replacement = "",x = k))] # remove punctuation
-#  data[, Description := map_chr(Description, function(k) gsub(pattern = "\\d+",replacement = "",x = k))] # remove digits
-#  data[, Description := map_chr(Description, function(k) replace_abbreviation(k))] # Sr. to Senior
-#  data[, Description := map_chr(Description, function(k) replace_contraction(k))] # isn't to is not
-#  data[,Description := map(Description, function(k) rm_stopwords(k, Top200Words, unlist = T))] # remove stopwords
-#  data[, Description := map(Description, function(k) stemmer(k))] # played, plays to play
-#  data[, Description :=  map(Description, function(k) k[nchar(k) > 2])] # remove two alphabet words like to, ok, po
-#  return (data)
-#}
-#train_clean <- cleanData(train)
-#test_clean <- cleanData(test)
 
 
-train_clean <- train[,Description:=map_chr(Description,tolower)]
-train_clean[,Description:=map_chr(Description,removePunctuation)]
-train_clean[,Description:=map_chr(Description,function(k) gsub(pattern = "\\d+",replacement = "",x = k))]
-train_clean[,Description:=map_chr(Description,replace_abbreviation)]
-train_clean[,Description:=map_chr(Description,replace_contraction)]
-train_clean[,Description:=map(Description,function(k) rm_stopwords(k,Top200Words,unlist = T))]
-train_clean[,Description:=map(Description,function(k) stemmer(k))]
-train_clean[,Description:=map(Description,function(k) k[nchar(k) > 2])]
-train_clean_frame <- as.data.frame(train_clean)
+train_clean <- train[,Description:=map_chr(Description,tolower)]# transform all letters to lower case
+train_clean[,Description:=map_chr(Description,removePunctuation)] #remove punctuation
+train_clean[,Description:=map_chr(Description,function(k) gsub(pattern = "\\d+",replacement = "",x = k))] #remove all the digits
+train_clean[,Description:=map_chr(Description,replace_abbreviation)] #replace abbreviation like Sr. to Senior
+train_clean[,Description:=map_chr(Description,replace_contraction)] #replace contraction like isn't to is not
+train_clean[,Description:=map(Description,function(k) rm_stopwords(k,Top200Words,unlist = T))] #remove stopwords
+train_clean[,Description:=map(Description,function(k) stemmer(k))] #stemming
+train_clean[,Description:=map(Description,function(k) k[nchar(k) > 2])] #remove words that have two alphabets
 fwrite(train_clean, file ="train_clean.csv")
 
 
@@ -72,4 +53,6 @@ test_clean[,Description:=map(Description,function(k) rm_stopwords(k,Top200Words,
 test_clean[,Description:=map(Description,function(k) stemmer(k))]
 test_clean[,Description:=map(Description,function(k) k[nchar(k) > 2])]
 fwrite(test_clean,file = "test_clean.csv")
+
+
 
