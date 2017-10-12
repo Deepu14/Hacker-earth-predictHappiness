@@ -12,8 +12,13 @@ In this challenge, you have to predict if a customer is happy or not happy.
 
 
 Variable	        Description
+
 User_ID	      unique ID of the customer
+
 Description	  description of the review posted
+
 Browser_Used	browser used to post the review
+
 Device_Used	  device used to post the review
+
 Is_Response	  target Variable
